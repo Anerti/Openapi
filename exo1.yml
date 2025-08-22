@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: pong
+  version: 1.0.0
+paths:
+  /ping:
+    get:
+      summary: return pong
+      responses:
+        '200':
+          description: return the string pong in plain text
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
