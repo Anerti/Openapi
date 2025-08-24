@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Task management
+  version: 1.0.0
+components:
+  schemas:
+    Task:
+      type: object
+      properties: 
+        id:
+          type: integer
+        title:
+          type: string
+        completed:
+          type: boolean
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+paths:
+  /tasks/:
+    get:
+      summary: view tasks available
+      responses:
+        '200':
+          description: return a list of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: create a new task list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: return a newly created list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    delete:
+      summary: delete all tasks
+      responses:
+        '200':
+          description: return all task lists deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{id}:
+    get:
+      summary: return informations about specific tasks referenced by it's id
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: task with the id specified found
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/Task'
+        '404':
+          description: task not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Task not found
+    delete:
+      summary: delete a specific task by it's id
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: task deleted by it's id
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: task specified sucessfully deleted
+        '404':
+          description: task not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Task not found
+
