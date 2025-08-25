@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Task management
+  version: 1.0.0
+components:
+  schemas:
+    Product:
+      type: object
+      properties: 
+        name:
+          type: string
+        expiration_datetime:
+          type: string
+          format: date-time
+        price:
+          type: integer
+  parameters:
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+      example: 10
+      description: maximum number of the element
+    q:
+      name: query
+      in: query
+      required: false
+      schema:
+        type: string
+      example: test
+      description: term searched
+paths:
+  /product:
+    get:
+      summary: return all products
+      parameters:
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: return a list of product
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                case_1:
+                  value:
+                    - name: "test"
+                      expiration_datetime: "2025-12-31T23:59:59Z"
+                      price: 500
+                    - name: "test test"
+                      expiration_datetime: "2026-01-01T00:00:00Z"
+                      price: 1000
+                case_2:
+                  value: []
+                    
+              
+
